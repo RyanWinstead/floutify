@@ -1,7 +1,5 @@
-<<<<<<< HEAD
+
 #By Mayra Banuelos
-=======
->>>>>>> c2086f374368abd6fa5f155582df27386dca7b46
 
 import cv2
 video=cv2.VideoCapture('cellvid.avi')
