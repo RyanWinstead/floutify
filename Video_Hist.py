@@ -25,15 +25,11 @@ end   = cv2.getTrackbarPos('end','video')
 
 video.set(cv2.CAP_PROP_POS_FRAMES,start)
 
-<<<<<<< HEAD
+video.set(cv2.CAP_PROP_POS_FRAMES,start)
+
 while(video.isOpened()):
   ret, img=video.read()
   if video.get(cv2.CAP_PROP_POS_FRAMES) >= end:
-=======
-while(cap.isOpened()):
-  ret, img=video.read()
-  if cap.get(cv2.CAP_PROP_POS_FRAMES) >= end:
->>>>>>> c2086f374368abd6fa5f155582df27386dca7b46
      break
   cv2.imshow("Cell_Video", gray)
   if cv2.waitKey(1) & 0xFF == ord('q'):
