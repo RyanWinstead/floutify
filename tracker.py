@@ -1,71 +1,84 @@
 import cv2
 import sys
-
+ 
 (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
+ 
 if __name__ == '__main__' :
-
+ 
     # Set up tracker.
     # Instead of MIL, you can also use
-
+ 
     tracker_types = ['BOOSTING', 'MIL','KCF', 'TLD', 'MEDIANFLOW', 'GOTURN']
-    tracker_type = tracker_types[2]
-
+    tracker_type = tracker_types[int(sys.argv[2])]
+ 
     if int(minor_ver) < 3:
-        global tracker = cv2.Tracker_create(tracker_type)
+        tracker = cv2.Tracker_create(tracker_type)
     else:
         if tracker_type == 'BOOSTING':
-            global tracker = cv2.TrackerBoosting_create()
+            tracker = cv2.TrackerBoosting_create()
         if tracker_type == 'MIL':
-            global tracker = cv2.TrackerMIL_create()
+            tracker = cv2.TrackerMIL_create()
         if tracker_type == 'KCF':
-            global tracker = cv2.TrackerKCF_create()
+            tracker = cv2.TrackerKCF_create()
+            #
         if tracker_type == 'TLD':
-            global tracker = cv2.TrackerTLD_create()
+            tracker = cv2.TrackerTLD_create()
         if tracker_type == 'MEDIANFLOW':
-            global tracker = cv2.TrackerMedianFlow_create()
+            tracker = cv2.TrackerMedianFlow_create()
         if tracker_type == 'GOTURN':
-            global tracker = cv2.TrackerGOTURN_create()
-
+            tracker = cv2.TrackerGOTURN_create()
+ 
     # Read video
-    video = cv2.VideoCapture(sys.argv[1]);
+    video = cv2.VideoCapture(sys.argv[1])
+    length = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
 
+    def onChange(trackbarValue):
+        video.set(cv2.CAP_PROP_POS_FRAMES,trackbarValue)
+        err,img = video.read()
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        gray = cv2.equalizeHist(gray)
+        cv2.imshow('video',gray)
+        pass
+
+    onChange(0)   
     # Exit if video not opened.
+    start = cv2.getTrackbarPos('start','video')
+
+    video.set(cv2.CAP_PROP_POS_FRAMES,start)    
     if not video.isOpened():
         print ("Could not open video")
         sys.exit()
-
+ 
     # Read first frame.
     ok, frame = video.read()
     if not ok:
-        print ("Cannot read video file")
+        print ('Cannot read video file')
         sys.exit()
-
+     
     # Define an initial bounding box
-    bbox = (287, 23, 86, 320)
-
+    #bbox = (287, 23, 86, 320)
+ 
     # Uncomment the line below to select a different bounding box
     bbox = cv2.selectROI(frame, False)
-
+ 
     # Initialize tracker with first frame and bounding box
     ok = tracker.init(frame, bbox)
-
+ 
     while True:
         # Read a new frame
         ok, frame = video.read()
-        #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
         if not ok:
             break
-
+         
         # Start timer
         timer = cv2.getTickCount()
-
+ 
         # Update tracker
         ok, bbox = tracker.update(frame)
-
+ 
         # Calculate Frames per second (FPS)
         fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
-
+ 
         # Draw bounding box
         if ok:
             # Tracking success
@@ -75,16 +88,16 @@ if __name__ == '__main__' :
         else :
             # Tracking failure
             cv2.putText(frame, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
-
+ 
         # Display tracker type on frame
         cv2.putText(frame, tracker_type + " Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
-
+     
         # Display FPS on frame
         cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
-
+ 
         # Display result
         cv2.imshow("Tracking", frame)
-
+ 
         # Exit if ESC pressed
         k = cv2.waitKey(1) & 0xff
         if k == 27 : break
