@@ -39,6 +39,7 @@ class Window(QWidget):
         openTrackingButton.resize(openTrackingButton.sizeHint())
         openTrackingButton.move(200,50)
         openTrackingButton.setObjectName("openImageButton")
+        openTrackingButton.clicked.connect(self.openTracking)
 
 
         self.show()
@@ -46,7 +47,8 @@ class Window(QWidget):
         openTrackingButton.clicked.connect(self.openImage)
 
     def openImage(self):
-        print("button pressed!")
+        print("image button pressed!")
+        imageButtonClicked = True
         fileName, _ = QFileDialog.getOpenFileName(self, "Open image",
                 QDir.homePath())
         print('In open: ', fileName)
@@ -55,6 +57,17 @@ class Window(QWidget):
             # qmc = QMediaContent(QUrl.fromLocalFile(fileName))
             # self.mediaPlayer.setMedia(qmc)
             # self.playButton.setEnabled(True)
+            pass
+
+    def openTracking(self):
+        print("video button pressed!")
+        openTrackingButtonClicked = True
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open video",
+                QDir.homePath())
+        print('In open: ', fileName)
+
+        if fileName != '':
+
             pass
 
     def keyPressEvent(self, event):
