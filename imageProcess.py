@@ -1,4 +1,4 @@
-def imagePros():
+def imagePros(fileName):
 
 	if openTrackingButtonClicked:
 		video = cv2.VideoCapture(fileName)

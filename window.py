@@ -14,6 +14,7 @@ from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import *
 import sys
+from ContourCounting import ContourCounting
 
 class Window(QWidget):
 
@@ -49,9 +50,11 @@ class Window(QWidget):
     def openImage(self):
         print("image button pressed!")
         imageButtonClicked = True
+        global fileName
         fileName, _ = QFileDialog.getOpenFileName(self, "Open image",
                 QDir.homePath())
         print('In open: ', fileName)
+        ContourCounting(self, fileName)
 
         if fileName != '':
             # qmc = QMediaContent(QUrl.fromLocalFile(fileName))
@@ -62,9 +65,11 @@ class Window(QWidget):
     def openTracking(self):
         print("video button pressed!")
         openTrackingButtonClicked = True
+        global fileName
         fileName, _ = QFileDialog.getOpenFileName(self, "Open video",
                 QDir.homePath())
         print('In open: ', fileName)
+        ContourCounting(self, fileName)
 
         if fileName != '':
 
