@@ -1,16 +1,17 @@
-def imagePros(fileName):
-
-	if openTrackingButtonClicked:
+from PyQt5.QtCore import QDir, Qt, QUrl
+from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+from PyQt5.QtWidgets import *
+import sys
+from ContourCounting import *
+import cv2
+def imagePros(fileName, option):
+	global image
+	if option == 'vid':
 		video = cv2.VideoCapture(fileName)
-		length = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-		video.set(cv2.CAP_PROP_POS_FRAMES,trackbarValue)
-		global image
 		err, image = video.read()
-	elif imageButtonClicked:
-		global image
+	else:
 		image = cv2.imread(fileName)
-    else:
-        pass
 
 	global image_gray1
 	image_gray1= cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
@@ -45,4 +46,4 @@ def imagePros(fileName):
 	cnts = cv2.findContours(image_edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE);
 	#print(cnts)
 	cnts = cnts[0] if imutils.is_cv2() else cnts[1]
-    return cnts, image_edged3, image_contours
+	return cnts, image_edged3, image_contours

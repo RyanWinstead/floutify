@@ -1,20 +1,11 @@
-#!/usr/bin/python3
-
-"""
-Fall 2017 CSc 690
-
-File: window.py
-This example shows how to open a display window
-
-Author: Bill Hsu
-Last edited: 8/1/2017
-"""
 from PyQt5.QtCore import QDir, Qt, QUrl
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import *
 import sys
-from ContourCounting import ContourCounting
+from ContourCounting import *
+from vidContour import *
+import cv2
 
 class Window(QWidget):
 
@@ -54,7 +45,7 @@ class Window(QWidget):
         fileName, _ = QFileDialog.getOpenFileName(self, "Open image",
                 QDir.homePath())
         print('In open: ', fileName)
-        ContourCounting(self, fileName)
+        ContourCounting(fileName)
 
         if fileName != '':
             # qmc = QMediaContent(QUrl.fromLocalFile(fileName))
@@ -69,7 +60,8 @@ class Window(QWidget):
         fileName, _ = QFileDialog.getOpenFileName(self, "Open video",
                 QDir.homePath())
         print('In open: ', fileName)
-        ContourCounting(self, fileName)
+        tracker = vidContour(fileName)
+        
 
         if fileName != '':
 
