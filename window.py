@@ -32,11 +32,11 @@ class Window(QWidget):
         openTrackingButton.move(200,50)
         openTrackingButton.setObjectName("openImageButton")
         openTrackingButton.clicked.connect(self.openTracking)
+        openTrackingButton.clicked.connect(self.openImage)
 
 
         self.show()
 
-        openTrackingButton.clicked.connect(self.openImage)
 
     def openImage(self):
         print("image button pressed!")
@@ -61,7 +61,7 @@ class Window(QWidget):
                 QDir.homePath())
         print('In open: ', fileName)
         tracker = vidContour(fileName)
-        
+
 
         if fileName != '':
 

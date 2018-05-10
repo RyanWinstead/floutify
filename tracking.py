@@ -6,7 +6,7 @@ from imageProcess import imagePros
 
     # Set up tracker.
     # Instead of MIL, you can also use
-def track(x, y, w, h, frameNumber, fileName):
+def track(bbox_coords, frameNumber, fileName):
     (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 
     tracker_types = ['BOOSTING', 'MIL','KCF', 'TLD', 'MEDIANFLOW', 'GOTURN']
@@ -42,24 +42,26 @@ def track(x, y, w, h, frameNumber, fileName):
     if not ok:
         print ('Cannot read video file')
         sys.exit()
+    else:
+        _,image_edged3,_ = imagePros(frame, 'vid')
 
     # Define an initial bounding box
     # bbox = (287, 23, 86, 320)
-    bbox = (x, y, w, h)
+    bbox = (bbox_coords[0], bbox_coords[1], bbox_coords[2], bbox_coords[3])
 
     # Uncomment the line below to select a different bounding box
     # bbox = cv2.selectROI(frame, False)
 
     # Initialize tracker with first frame and bounding box
-    ok = tracker.init(frame, bbox)
+    ok = tracker.init(image_edged3, bbox)
 
     cv2.waitKey(0)
 
     while True:
         # Read a new frame
-        imagePros(fileName, 'vid')
         ok, frame = video.read()
-        # frame = image
+        _, image_edged3, _ = imagePros(frame, 'vid')
+                # frame = image
         # ok = err
         if not ok:
             break
@@ -68,7 +70,7 @@ def track(x, y, w, h, frameNumber, fileName):
         timer = cv2.getTickCount()
 
         # Update tracker
-        ok, bbox = tracker.update(frame)
+        ok, bbox = tracker.update(image_edged3)
 
         # Calculate Frames per second (FPS)
         fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer);
@@ -78,19 +80,19 @@ def track(x, y, w, h, frameNumber, fileName):
             # Tracking success
             p1 = (int(bbox[0]), int(bbox[1]))
             p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
-            cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
+            cv2.rectangle(image_edged3, p1, p2, (255,0,0), 2, 1)
         else :
             # Tracking failure
-            cv2.putText(frame, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
+            cv2.putText(image_edged3, "Tracking failure detected", (100,80), cv2.FONT_HERSHEY_SIMPLEX, 0.75,(0,0,255),2)
 
         # Display tracker type on frame
-        cv2.putText(frame, tracker_type + " Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
+        cv2.putText(image_edged3, tracker_type + " Tracker", (100,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50),2);
 
         # Display FPS on frame
-        cv2.putText(frame, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
+        cv2.putText(image_edged3, "FPS : " + str(int(fps)), (100,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50,170,50), 2);
 
         # Display result
-        cv2.imshow("Tracking", frame)
+        cv2.imshow("Tracking", image_edged3)
 
         # Exit if ESC pressed
         k = cv2.waitKey(1) & 0xff

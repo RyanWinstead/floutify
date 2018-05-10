@@ -5,19 +5,16 @@ from PyQt5.QtWidgets import *
 import sys
 from ContourCounting import *
 import cv2
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
-import imutils
 
-
-def imagePros(fileName, option):
+def imagePros(incomingImage, option):
 	global image
 	if option == 'vid':
-		video = cv2.VideoCapture(fileName)
-		err, image = video.read()
+		image = incomingImage
+
+		# video = cv2.VideoCapture(incomingImage)
+		# err, image = video.read()
 	else:
-		image = cv2.imread(fileName)
+		image = cv2.imread(incomingImage)
 
 	global image_gray1
 	image_gray1= cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
