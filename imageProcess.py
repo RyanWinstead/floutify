@@ -5,11 +5,18 @@ from PyQt5.QtWidgets import *
 import sys
 from ContourCounting import *
 import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+import imutils
+
+
 def imagePros(fileName, option):
 	global image
 	if option == 'vid':
 		video = cv2.VideoCapture(fileName)
-		err, image = video.read()
+		video1 = cv2.imread(video)
+		err, image = video1.read()
 	else:
 		image = cv2.imread(fileName)
 

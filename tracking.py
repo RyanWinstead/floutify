@@ -1,12 +1,12 @@
 import cv2
 import sys
-
+from imageProcess import imagePros
 
 # if __name__ == '__main__' :
 
     # Set up tracker.
     # Instead of MIL, you can also use
-def track(x, y, w, h, frameNumber):
+def track(x, y, w, h, frameNumber, fileName):
     (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 
     tracker_types = ['BOOSTING', 'MIL','KCF', 'TLD', 'MEDIANFLOW', 'GOTURN']
@@ -29,7 +29,7 @@ def track(x, y, w, h, frameNumber):
             tracker = cv2.TrackerGOTURN_create()
 
     # Read video
-    video = cv2.VideoCapture("cellvid13.wmv")
+    video = cv2.VideoCapture(fileName)
 
     # Exit if video not opened.
     if not video.isOpened():
@@ -57,6 +57,7 @@ def track(x, y, w, h, frameNumber):
 
     while True:
         # Read a new frame
+        imagePros(fileName)
         ok, frame = video.read()
         # frame = image
         # ok = err
