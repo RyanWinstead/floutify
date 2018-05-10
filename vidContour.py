@@ -92,7 +92,7 @@ class vidContour():
 			cellnumber = k-67
 			print(len(bboxes))
 			print(cellnumber)
-			tracking.track(bboxes[cellnumber][0], bboxes[cellnumber][1], bboxes[cellnumber][2], bboxes[cellnumber][3], cv2.CAP_PROP_POS_FRAMES, fileName)
+			tracking.track(bboxes[cellnumber][0], bboxes[cellnumber][1], bboxes[cellnumber][2], bboxes[cellnumber][3], cv2.CAP_PROP_POS_FRAMES, self.fileName)
 
 		pass
 

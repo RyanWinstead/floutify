@@ -15,8 +15,7 @@ def imagePros(fileName, option):
 	global image
 	if option == 'vid':
 		video = cv2.VideoCapture(fileName)
-		video1 = cv2.imread(video)
-		err, image = video1.read()
+		err, image = video.read()
 	else:
 		image = cv2.imread(fileName)
 

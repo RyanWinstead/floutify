@@ -57,7 +57,7 @@ def track(x, y, w, h, frameNumber, fileName):
 
     while True:
         # Read a new frame
-        imagePros(fileName)
+        imagePros(fileName, 'vid')
         ok, frame = video.read()
         # frame = image
         # ok = err
