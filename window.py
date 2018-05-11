@@ -6,7 +6,7 @@ import sys
 from ContourCounting import *
 from vidContour import *
 import cv2
-
+#create window class
 class Window(QWidget):
 
     def __init__(self):
@@ -38,6 +38,7 @@ class Window(QWidget):
 
         openTrackingButton.clicked.connect(self.openImage)
 
+    #if image button is pressed
     def openImage(self):
         print("image button pressed!")
         imageButtonClicked = True
@@ -48,11 +49,9 @@ class Window(QWidget):
         ContourCounting(fileName)
 
         if fileName != '':
-            # qmc = QMediaContent(QUrl.fromLocalFile(fileName))
-            # self.mediaPlayer.setMedia(qmc)
-            # self.playButton.setEnabled(True)
-            pass
 
+            pass
+    #if video button is pressed
     def openTracking(self):
         print("video button pressed!")
         openTrackingButtonClicked = True
@@ -61,7 +60,7 @@ class Window(QWidget):
                 QDir.homePath())
         print('In open: ', fileName)
         tracker = vidContour(fileName)
-        
+
 
         if fileName != '':
 

@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import cv2
 import imutils
 
-
+#all image morphological functions
 def imagePros(fileName, option):
 	global image
 	if option == 'vid':

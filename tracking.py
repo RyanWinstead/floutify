@@ -5,10 +5,10 @@ from imageProcess import imagePros
 # if __name__ == '__main__' :
 
     # Set up tracker.
-    # Instead of MIL, you can also use
 def track(x, y, w, h, frameNumber, fileName):
     (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 
+    #tracker types
     tracker_types = ['BOOSTING', 'MIL','KCF', 'TLD', 'MEDIANFLOW', 'GOTURN']
     tracker_type = tracker_types[2]
 
@@ -56,11 +56,10 @@ def track(x, y, w, h, frameNumber, fileName):
     cv2.waitKey(0)
 
     while True:
-        # Read a new frame
+        # Read a new frame and process new frame
         imagePros(fileName, 'vid')
         ok, frame = video.read()
-        # frame = image
-        # ok = err
+
         if not ok:
             break
 
